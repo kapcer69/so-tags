@@ -3,6 +3,8 @@ import './App.css';
 import TagTable from './Tags/TagTable';
 
 const queryClient = new QueryClient();
+export const BASE_URL =
+    'https://api.stackexchange.com/2.3/tags?&site=stackoverflow';
 
 function App() {
     return (
