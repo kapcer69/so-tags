@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import './App.css';
-import TagTable from './Tags/TagTable';
+import TagTable from './components/Tags/TagTable';
 
 const queryClient = new QueryClient();
 export const BASE_URL =
