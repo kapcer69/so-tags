@@ -1,11 +1,13 @@
-import { Container } from '@mui/material';
+import { Box, Container } from '@mui/material';
+import { StyledEngineProvider } from '@mui/material/styles';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { nanoid } from 'nanoid';
-import ProgressSpinner from '../../ProgressSpinner/ProgressSpinner';
 import { useTags } from '../../hooks/useTags';
+import ProgressSpinner from '../ProgressSpinner/ProgressSpinner';
+import './TagTable.css';
 
 function TagTable() {
-    const { data, isLoading, error } = useTags();
+    const { data, isLoading, isError, error } = useTags();
 
     const columns: GridColDef[] = [
         { field: 'name', headerName: 'Tag name', width: 130 },
@@ -13,13 +15,29 @@ function TagTable() {
     ];
 
     if (isLoading) {
-        return <ProgressSpinner />;
+        return (
+            <StyledEngineProvider injectFirst>
+                <Container>
+                    <ProgressSpinner />
+                </Container>
+            </StyledEngineProvider>
+        );
+    }
+
+    if (isError) {
+        return (
+            <StyledEngineProvider injectFirst>
+                <Container>
+                    <h2>{error.message}</h2>
+                </Container>
+            </StyledEngineProvider>
+        );
     }
 
     return (
-        <main>
+        <StyledEngineProvider injectFirst>
             <Container>
-                <div style={{ height: 400, width: '100%' }}>
+                <Box sx={{ height: 400, width: '100%' }}>
                     <DataGrid
                         rows={data}
                         columns={columns}
@@ -30,10 +48,11 @@ function TagTable() {
                             },
                         }}
                         pageSizeOptions={[5, 10]}
+                        disableRowSelectionOnClick
                     />
-                </div>
+                </Box>
             </Container>
-        </main>
+        </StyledEngineProvider>
     );
 }
 
