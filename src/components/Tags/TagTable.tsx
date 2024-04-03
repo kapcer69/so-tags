@@ -1,9 +1,9 @@
-import { Box, Container } from '@mui/material';
-import { StyledEngineProvider } from '@mui/material/styles';
+import { Box } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { nanoid } from 'nanoid';
 import { useTags } from '../../hooks/useTags';
 import ProgressSpinner from '../ProgressSpinner/ProgressSpinner';
+import Wrapper from '../Wrapper/Wrapper';
 import './TagTable.css';
 
 function TagTable() {
@@ -16,43 +16,37 @@ function TagTable() {
 
     if (isLoading) {
         return (
-            <StyledEngineProvider injectFirst>
-                <Container>
-                    <ProgressSpinner />
-                </Container>
-            </StyledEngineProvider>
+            <Wrapper>
+                <ProgressSpinner />
+            </Wrapper>
         );
     }
 
     if (isError) {
         return (
-            <StyledEngineProvider injectFirst>
-                <Container>
-                    <h2>{error.message}</h2>
-                </Container>
-            </StyledEngineProvider>
+            <Wrapper>
+                <h2>{error.message}</h2>
+            </Wrapper>
         );
     }
 
     return (
-        <StyledEngineProvider injectFirst>
-            <Container>
-                <Box sx={{ height: 400, width: '100%' }}>
-                    <DataGrid
-                        rows={data}
-                        columns={columns}
-                        getRowId={() => nanoid()}
-                        initialState={{
-                            pagination: {
-                                paginationModel: { page: 0, pageSize: 5 },
-                            },
-                        }}
-                        pageSizeOptions={[5, 10]}
-                        disableRowSelectionOnClick
-                    />
-                </Box>
-            </Container>
-        </StyledEngineProvider>
+        <Wrapper>
+            <Box sx={{ height: 400, width: '100%' }}>
+                <DataGrid
+                    rows={data}
+                    columns={columns}
+                    getRowId={() => nanoid()}
+                    initialState={{
+                        pagination: {
+                            paginationModel: { page: 0, pageSize: 5 },
+                        },
+                    }}
+                    pageSizeOptions={[5, 10]}
+                    disableRowSelectionOnClick
+                />
+            </Box>
+        </Wrapper>
     );
 }
 
